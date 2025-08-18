@@ -1,0 +1,52 @@
+name: aigp
+
+mgmt:
+  network: fixedips
+  ipv4-subnet: 172.30.5.0/24
+  ipv6-subnet: 2001:172:30:5::/80
+
+topology:
+  nodes:
+    xr1:
+      kind: cisco_xrd
+      image: ios-xr/xrd-control-plane:25.2.1
+      mgmt-ipv4: 172.30.5.201
+      mgmt-ipv6: 2001:172:30:5::201
+
+    xr2:
+      kind: cisco_xrd
+      image: ios-xr/xrd-control-plane:25.2.1
+      mgmt-ipv4: 172.30.5.202
+      mgmt-ipv6: 2001:172:30:5::202
+
+    xr3:
+      kind: cisco_xrd
+      image: ios-xr/xrd-control-plane:25.2.1
+      mgmt-ipv4: 172.30.5.203
+      mgmt-ipv6: 2001:172:30:5::203
+
+    xe4:
+      kind: cisco_c8000v
+      image: vrnetlab/cisco_c8000v:17.11.01a
+      mgmt-ipv4: 172.30.5.204
+      mgmt-ipv6: 2001:172:30:5::204
+
+    xe5:
+      kind: cisco_c8000v
+      image: vrnetlab/cisco_c8000v:17.11.01a
+      mgmt-ipv4: 172.30.5.205
+      mgmt-ipv6: 2001:172:30:5::205
+
+    xe6:
+      kind: cisco_c8000v
+      image: vrnetlab/cisco_c8000v:17.11.01a
+      mgmt-ipv4: 172.30.5.206
+      mgmt-ipv6: 2001:172:30:5::206
+
+  links:
+    - endpoints: ["xr1:Gi0-0-0-0", "xr2:Gi0-0-0-0"]
+    - endpoints: ["xr1:Gi0-0-0-1", "xr3:Gi0-0-0-1"]
+    - endpoints: ["xr2:Gi0-0-0-1", "xe4:Gi2"]
+    - endpoints: ["xr3:Gi0-0-0-0", "xe5:Gi2"]
+    - endpoints: ["xe4:Gi3", "xe6:Gi3"]
+    - endpoints: ["xe5:Gi4", "xe6:Gi4"]
